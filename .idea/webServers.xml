@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6d493ae6-94c4-4fdf-b3ee-3a9e3449e7c4" name="bot">
+        <fileTransfer rootFolder="/var/www/u1050819/data" accessType="SFTP" host="boilingpointbot.ru" port="22" sshConfigId="caa6e451-88ba-4689-b678-ab7c15063629" sshConfig="u1050819@boilingpointbot.ru:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="0eb5917c-8d68-49ff-bbbc-5b7af8382cde" name="botftp" url="http://boilingpointbot.ru">
+        <fileTransfer rootFolder="/www/boilingpointbot.ru" host="boilingpointbot.ru" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

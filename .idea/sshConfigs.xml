@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="boilingpointbot.ru" id="caa6e451-88ba-4689-b678-ab7c15063629" port="22" nameFormat="DESCRIPTIVE" username="u1050819" />
+    </configs>
+  </component>
+</project>
