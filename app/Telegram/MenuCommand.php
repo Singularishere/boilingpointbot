@@ -28,25 +28,28 @@ class MenuCommand extends Command
     public function handle($arguments)
     {
         $telegram = new Api(Telegram::getAccessToken());
-        $keyboard = [
-            ['7', '8', '9'],
-            ['4', '5', '6'],
-            ['1', '2', '3'],
-            ['0']
-        ];
+        $response = $telegram->sendMessage([
+            'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
+            'text' => 'Меню:',
+            'reply_markup' => $this->getMenuReplyMarkup($telegram)
+        ]);
+        $messageId = $response->getMessageId();
+    }
 
-        $reply_markup = $telegram->replyKeyboardMarkup([
+    /**
+     * Получение разметки главного меню
+     * @param $telegram
+     * @return mixed
+     */
+    public static function getMenuReplyMarkup($telegram){
+        $keyboard = [
+            ['О нас', 'Новости', 'Инстаграм'],
+            ['Адрес', '/Мероприятия'],
+        ];
+        return $telegram->replyKeyboardMarkup([
             'keyboard' => $keyboard,
             'resize_keyboard' => true,
             'one_time_keyboard' => true
         ]);
-
-        $response = $telegram->sendMessage([
-            'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
-            'text' => 'Hello World',
-            'reply_markup' => $reply_markup
-        ]);
-
-        $messageId = $response->getMessageId();
     }
 }
