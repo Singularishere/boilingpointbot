@@ -58,6 +58,17 @@ return [
     'commands' => [
         Telegram\Bot\Commands\HelpCommand::class,
         App\Telegram\TestCommand::class,
-        App\Telegram\MenuCommand::class
+        App\Telegram\MenuCommand::class,
+        App\Telegram\EventsCommand::class,
+        App\Telegram\AuthorizeCommand::class,
+        App\Telegram\SetClientId::class,
+        App\Telegram\SetClientSecretKey::class,
+        App\Telegram\SetClientApiCode::class,
+        App\Telegram\GetAreaById::class,
+        App\Telegram\GetAccessToken::class,
+        App\Telegram\RefreshApiToken::class,
+        App\Telegram\EventsByDateCommand::class,
+        App\Telegram\SubscribeEventById::class,
+        App\Telegram\SubscribedEventsByDate::class
     ],
 ];
