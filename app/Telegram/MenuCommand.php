@@ -33,7 +33,6 @@ class MenuCommand extends Command
             'text' => 'Меню:',
             'reply_markup' => $this->getMenuReplyMarkup($telegram)
         ]);
-        $messageId = $response->getMessageId();
     }
 
     /**
@@ -43,8 +42,8 @@ class MenuCommand extends Command
      */
     public static function getMenuReplyMarkup($telegram){
         $keyboard = [
-            ['О нас', 'Новости', 'Инстаграм'],
-            ['Адрес', '/Мероприятия'],
+            ['О нас', 'Авторизация', 'Аккаунт'],
+            ['Мероприятия', 'Инстаграм'],
         ];
         return $telegram->replyKeyboardMarkup([
             'keyboard' => $keyboard,

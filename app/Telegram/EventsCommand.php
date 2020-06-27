@@ -46,7 +46,24 @@ class EventsCommand extends Command
             'reply_markup' => $reply_markup
         ]);
 
-
         $messageId = $response->getMessageId();
+    }
+
+    /**
+     * Получение разметки меню мероприятий
+     * @param $telegram
+     * @return mixed
+     */
+    public static function getEventsKeyboardCommands($telegram){
+        $keyboard = [
+            ['Выбор перечня мероприятий в график', 'Добавление заявки по id мероприятия'],
+            ['Перечень мероприятий по дате на который вы подписаны', 'Выбор конкретной площадки по ID'],
+            ['Вернуться в главное меню']
+        ];
+        return $telegram->replyKeyboardMarkup([
+            'keyboard' => $keyboard,
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true
+        ]);
     }
 }
