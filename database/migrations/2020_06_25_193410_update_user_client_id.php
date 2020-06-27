@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUsersTable extends Migration
+class UpdateUserClientId extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,7 @@ class UpdateUsersTable extends Migration
     {
         if(Schema::hasTable('users')){
             Schema::table('users',function (Blueprint $table){
-               $table->string('telegramId',255);
-               $table->string('apiToken',255);
-               $table->string('apiRefreshToken',255);
+                $table->dropColumn('client_id');
             });
         }
     }
@@ -29,10 +27,6 @@ class UpdateUsersTable extends Migration
      */
     public function down()
     {
-        if(Schema::hasTable('users')){
-            Schema::table('users',function (Blueprint $table){
-                $table->dropColumn(['telegramCode', 'apiToken', 'apiRefreshToken']);
-            });
-        }
+        //
     }
 }
