@@ -27,5 +27,10 @@ class CreateUserClientIdField extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('users')){
+            Schema::table('users',function (Blueprint $table){
+                $table->dropColumn(['client_id']);
+            });
+        }
     }
 }

@@ -18,7 +18,7 @@ class Account implements MenuInterface
     {
         $user = new Users();
         return [
-            'chat_id' =>$telegramId,
+            'chat_id' => $telegramId,
             'text' => "Данные вашего аккаунта:{$this->getClientAccountFormText($user->getUserByTelegramId($telegramId))}",
         ];
     }

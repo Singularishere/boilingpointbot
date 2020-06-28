@@ -16,6 +16,7 @@ use App\Http\Traits;
 class GetAccessToken extends Command
 {
     use Traits\Api;
+
     /**
      * @var Users
      */
@@ -44,13 +45,13 @@ class GetAccessToken extends Command
         $telegram = new Api(Telegram::getAccessToken());
         $requestData = $telegram->getWebhookUpdates();
         $user = $this->user->getUserByTelegramId($requestData['message']['from']['id']);
-        if(empty($user->apiToken)){
+        if (empty($user->apiToken)) {
             $apiToken = $this->getUserApiToken($user);
             $telegram->sendMessage([
                 'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
                 'text' => !empty($apiToken) && isset($apiToken['error']) ? $apiToken['error'] : "Ваш Api Token: {$apiToken}",
             ]);
-        }else{
+        } else {
             $telegram->sendMessage([
                 'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
                 'text' => 'К вашему аккаунту уже привязан access token. Чтобы обновить его, выполните команду /RefreshToken.',

@@ -15,9 +15,11 @@ class Users extends Model
      * @param $id
      * @return mixed
      */
-    public function getUserByTelegramId($id){
-        return $this->where('telegramId',$id)->first();
+    public function getUserByTelegramId($id)
+    {
+        return $this->where('telegramId', $id)->first();
     }
+
     /**
      * Запись client id клиента
      * @param $telegramId
@@ -48,7 +50,8 @@ class Users extends Model
      * @param $telegramId
      * @param $code
      */
-    public function setClientApiCode($telegramId,$code){
+    public function setClientApiCode($telegramId, $code)
+    {
         $user = $this->getUser($telegramId);
         $user->code = $code;
         $user->save();
@@ -58,7 +61,8 @@ class Users extends Model
      * Запись access token
      * @param $token
      */
-    public function setAccessToken($token){
+    public function setAccessToken($token)
+    {
         $this->apiToken = $token;
         $this->save();
     }
@@ -67,7 +71,8 @@ class Users extends Model
      * Запись refresh token
      * @param $token
      */
-    public function setRefreshToken($token){
+    public function setRefreshToken($token)
+    {
         $this->apiRefreshToken = $token;
         $this->save();
     }
@@ -76,7 +81,8 @@ class Users extends Model
      * Запись user id на платформе leader-id
      * @param $userId
      */
-    public function setApiUserId($userId){
+    public function setApiUserId($userId)
+    {
         $this->api_user_id = $userId;
         $this->save();
     }
@@ -115,7 +121,8 @@ class Users extends Model
      * Получить access token
      * @return mixed
      */
-    public function getAccessToken(){
+    public function getAccessToken()
+    {
         return $this->apiToken;
     }
 }

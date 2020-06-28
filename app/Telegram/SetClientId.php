@@ -43,7 +43,7 @@ class SetClientId extends Command
         $requestData = $telegram->getWebhookUpdates();
         $parsedMessage = explode(':', str_replace(' ', '', $requestData['message']['text']));
         if (isset($parsedMessage['1'])) {
-            $this->user->setClientId($requestData['message']['from']['id'],$parsedMessage[1]);
+            $this->user->setClientId($requestData['message']['from']['id'], $parsedMessage[1]);
             $telegram->sendMessage([
                 'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
                 'text' => 'Client Id успешно привязан',

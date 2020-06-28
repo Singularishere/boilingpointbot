@@ -16,6 +16,7 @@ use App\Http\Traits;
 class RefreshApiToken extends Command
 {
     use Traits\Api;
+
     /**
      * @var Users
      */
@@ -44,13 +45,13 @@ class RefreshApiToken extends Command
         $telegram = new Api(Telegram::getAccessToken());
         $requestData = $telegram->getWebhookUpdates();
         $user = $this->user->getUserByTelegramId($requestData['message']['from']['id']);
-        if(!empty($user->apiRefreshToken)){
+        if (!empty($user->apiRefreshToken)) {
             $apiToken = $this->refreshUserApiToken($user);
             $telegram->sendMessage([
                 'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
-                'text' => !empty($apiToken) && ($apiToken instanceof \Exception) ? $apiToken->getMessage() :  "Ваш токен обновлён. Access Token : {$apiToken}",
+                'text' => !empty($apiToken) && ($apiToken instanceof \Exception) ? $apiToken->getMessage() : "Ваш токен обновлён. Access Token : {$apiToken}",
             ]);
-        }else{
+        } else {
             $telegram->sendMessage([
                 'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
                 'text' => trans('messages.refresh_token_not_exist'),

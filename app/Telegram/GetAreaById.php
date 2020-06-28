@@ -16,6 +16,7 @@ use App\Http\Traits;
 class GetAreaById extends Command
 {
     use Traits\Api;
+
     /**
      * @var Users
      */
@@ -45,10 +46,10 @@ class GetAreaById extends Command
         $requestData = $telegram->getWebhookUpdates();
         $parsedMessage = explode(':', str_replace(' ', '', $requestData['message']['text']));
         if (isset($parsedMessage[1])) {
-            $areas = $this->getArea($this->user->getUserByTelegramId($requestData['message']['from']['id']),(int)$parsedMessage[1]);
+            $areas = $this->getArea($this->user->getUserByTelegramId($requestData['message']['from']['id']), (int)$parsedMessage[1]);
             $telegram->sendMessage([
                 'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
-                'text' => !empty($areas) || isset($areas['error']) ? $areas['error'] : "$areas->CountryName , $areas->CityName",
+                'text' => !empty($areas) && isset($areas['error']) ? $areas['error'] : "$areas->CountryName , $areas->CityName",
             ]);
         } else {
             $telegram->sendMessage([

@@ -30,13 +30,12 @@ class AuthorizeCommand extends Command
     {
         $api = new Api(Telegram::getAccessToken(), true);
         $tg = $api->getWebhookUpdates();
-        if($tg['message']['text'] == '/Authorize'){
+        if ($tg['message']['text'] == '/Authorize') {
             $api->sendMessage([
                 'chat_id' => $tg['message']['from']['id'],
                 'text' => "Авторизация необходима, для использования api leader-id.\nДля того чтобы авторизоваться вам необходимо ввести code,client_id,secret_key от вашего аккаунта в leader-id\r\nКоманды для привязки:\n/SetClientId - для привязки client_id\n/SetSecretKey - для привязки secret_key\n/SetClientCode - для привязки code\n",
             ]);
-        }
-        else{
+        } else {
             $api->sendMessage([
                 'chat_id' => $tg['message']['from']['id'],
                 'text' => $tg['message']['text'],

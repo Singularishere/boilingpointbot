@@ -40,7 +40,8 @@ class MenuCommand extends Command
      * @param $telegram
      * @return mixed
      */
-    public static function getMenuReplyMarkup($telegram){
+    public static function getMenuReplyMarkup($telegram)
+    {
         $keyboard = [
             ['О нас', 'Авторизация', 'Аккаунт'],
             ['Мероприятия', 'Инстаграм'],

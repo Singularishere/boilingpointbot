@@ -54,10 +54,11 @@ class EventsCommand extends Command
      * @param $telegram
      * @return mixed
      */
-    public static function getEventsKeyboardCommands($telegram){
+    public static function getEventsKeyboardCommands($telegram)
+    {
         $keyboard = [
             ['Выбор перечня мероприятий в график', 'Добавление заявки по id мероприятия'],
-            ['Перечень мероприятий по дате на который вы подписаны', 'Выбор конкретной площадки по ID'],
+            ['Перечень мероприятий по дате на который вы подписаны', 'Выбор мероприятия по id'],
             ['Вернуться в главное меню']
         ];
         return $telegram->replyKeyboardMarkup([

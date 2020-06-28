@@ -41,17 +41,13 @@ class EventsByDateCommand extends Command
             $date = explode('-', $requestText[1]);
             $user = new Users();
             $user = $user->getUserByTelegramId($requestData['message']['from']['id']);
-            $events = $this->getEventsByDate($date,$user);
-            $telegram->sendMessage([
-                'chat_id' => $requestData['message']['from']['id'],
-                'text' => "Название:  {$events[0]['Name']}\r\nИнформация:  {$events[0]['Info']}\r\nUrl:   {$events[0]['Url']}",
-            ]);
-//            foreach ($events as $event) {
-//                $telegram->sendMessage([
-//                    'chat_id' => $requestData['message']['from']['id'],
-//                    'text' => "Название:  {$event['Name']}\r\nИнформация:  {$event['Info']}\r\nUrl:   {$event['Url']}",
-//                ]);
-//            }
+            $events = $this->getEventsByDate($date, $user);
+            foreach ($events as $event) {
+                $telegram->sendMessage([
+                    'chat_id' => $requestData['message']['from']['id'],
+                    'text' => "Название:  {$event['Name']}\r\nИнформация:  {$event['Info']}\r\nUrl:   {$event['Url']}",
+                ]);
+            }
         }
     }
 }
