@@ -57,7 +57,6 @@ return [
     */
     'commands' => [
         Telegram\Bot\Commands\HelpCommand::class,
-        App\Telegram\TestCommand::class,
         App\Telegram\MenuCommand::class,
         App\Telegram\EventsCommand::class,
         App\Telegram\AuthorizeCommand::class,
@@ -69,6 +68,7 @@ return [
         App\Telegram\RefreshApiToken::class,
         App\Telegram\EventsByDateCommand::class,
         App\Telegram\SubscribeEventById::class,
-        App\Telegram\SubscribedEventsByDate::class
+        App\Telegram\SubscribedEventsByDate::class,
+        App\Telegram\GetEventById::class
     ],
 ];

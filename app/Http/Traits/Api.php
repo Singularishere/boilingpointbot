@@ -18,7 +18,7 @@ trait Api
      * @return array
      * @throws GuzzleException
      */
-    public function getEventsByDate($date,$user): array
+    public function getEventsByDate($date, $user): array
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
         $url = "api/events?access_token={$user->apiToken}&StartDate={$date[0]}&EndDate={$date[1]}";
@@ -71,23 +71,16 @@ trait Api
     public function registerEvent($eventId, $user): string
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
-        try{
+        try {
             $url = "api/events/$eventId/register/{$user->api_user_id}?access_token={$user->apiToken}";
             $response = $client->request("POST", $url);
             $parsedData = json_decode($response->getBody()->getContents());
             if (!empty($parsedData) && $parsedData->Result == true) {
                 return $parsedData->Status == 'Unregistered' ? 'Заявка на мероприятие отменена' : 'Заявка на мероприятие успешно подана';
             }
-        }catch (\Exception $exception){
-            return  $exception;
+        } catch (\Exception $exception) {
+            return $exception;
         }
-//        $url = "api/events/$eventId/register/{$user->api_user_id}?access_token={$user->apiToken}";
-//        $response = $client->request("POST", $url);
-//        $parsedData = json_decode($response->getBody()->getContents());
-//        if (!empty($parsedData) && $parsedData->Result == true) {
-//            return $parsedData->Status == 'Unregistered' ? 'Заявка на мероприятие отменена' : 'Заявка на мероприятие успешно подана';
-//        }
-//        return $parsedData->error_description;
     }
 
     /**
@@ -100,7 +93,7 @@ trait Api
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
         try {
-            $response = $client->request("GET", "api/addresses/$areaId?access_token={$user->apiToken}");
+            $response = $client->request("GET", "api/addresses/$areaId?access_token=$user->apiToken");
             $parsedData = json_decode($response->getBody()->getContents());
             $countryName = $client->request("GET", "api/countries/{$parsedData->Data->CountryId}?access_token={$user->apiToken}");
             $regionName = $client->request("GET", "api/regions/{$parsedData->Data->RegionId}?access_token={$user->apiToken}");
@@ -110,21 +103,22 @@ trait Api
             $parsedData->Data->CityName = json_decode($cityName->getBody()->getContents())->Data->Name;
             return $parsedData->Data;
         } catch (\Exception $exception) {
-            if ($exception->getCode() == 403) {
-                $user->getAccessToken();
-                if (empty($user->getAccessToken())) {
-                    return ['error' => trans('messages.access_token_error')];
-                } else {
-                    return $exception->getMessage();
-//                    $this->refreshUserApiToken($user);
-//                    $this->getArea($user,$areaId);
-                }
-            }
-            return [
-                'error' => $exception->getResponse()->getreasonPhrase() . '' . $exception->getPrevious()
-            ];
+            return $exception;
         }
 
+    }
+
+    public function getEventById(Users $user, $eventId)
+    {
+        $client = new Client(['base_uri' => 'https://leader-id.ru/']);
+        try {
+            $url = "api/events/$eventId?access_token=$user->apiToken";
+            $response = $client->request("GET", $url);
+            $parsedData = json_decode($response->getBody()->getContents());
+            return $parsedData->Data;
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
     /**
