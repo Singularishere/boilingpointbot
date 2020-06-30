@@ -21,6 +21,7 @@ trait Api
     public function getEventsByDate($date, $user): array
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
+        $this->checkTokenExpired($user);
         $url = "api/events?access_token={$user->apiToken}&StartDate={$date[0]}&EndDate={$date[1]}";
         $response = $client->request("GET", $url);
         $parsedData = json_decode($response->getBody()->getContents());
@@ -48,6 +49,7 @@ trait Api
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
         try {
+            $this->checkTokenExpired($user);
             $url = "api/users/{$user->api_user_id}/events?access_token={$user->apiToken}";
             $response = $client->request("GET", $url);
             $parsedData = json_decode($response->getBody()->getContents());
@@ -72,6 +74,7 @@ trait Api
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
         try {
+            $this->checkTokenExpired($user);
             $url = "api/events/$eventId/register/{$user->api_user_id}?access_token={$user->apiToken}";
             $response = $client->request("POST", $url);
             $parsedData = json_decode($response->getBody()->getContents());
@@ -93,6 +96,7 @@ trait Api
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
         try {
+            $this->checkTokenExpired($user);
             $response = $client->request("GET", "api/addresses/$areaId?access_token=$user->apiToken");
             $parsedData = json_decode($response->getBody()->getContents());
             $countryName = $client->request("GET", "api/countries/{$parsedData->Data->CountryId}?access_token={$user->apiToken}");
@@ -112,6 +116,7 @@ trait Api
     {
         $client = new Client(['base_uri' => 'https://leader-id.ru/']);
         try {
+            $this->checkTokenExpired($user);
             $url = "api/events/$eventId?access_token=$user->apiToken";
             $response = $client->request("GET", $url);
             $parsedData = json_decode($response->getBody()->getContents());
@@ -137,6 +142,7 @@ trait Api
             $user->setAccessToken($parsedData->access_token);
             $user->setRefreshToken($parsedData->refresh_token);
             $user->setApiUserId($parsedData->user_id);
+            $user->setApiTokenExpires($parsedData->expires_in);
             return $user->apiToken;
         } catch (\Exception $exception) {
             return ['error' => $exception->getMessage()];
@@ -157,9 +163,23 @@ trait Api
             $user->setAccessToken($parsedData->access_token);
             $user->setRefreshToken($parsedData->refresh_token);
             $user->setApiUserId($parsedData->user_id);
+            $user->setApiTokenExpires($parsedData->expires_in);
             return $user->apiToken;
         } catch (\Exception $exception) {
             return $exception;
         }
+    }
+
+    /**
+     * Проверка истечения времени действия токена и его обновление
+     * @param Users $user
+     * @throws GuzzleException
+     */
+    public function checkTokenExpired(Users $user)
+    {
+        if (!empty($user->api_token_expires) && !round(microtime(true) * 1000) > $user->api_token_expires) {
+            $this->refreshUserApiToken($user);
+        }
+
     }
 }
