@@ -2,6 +2,7 @@
 
 namespace App\Telegram;
 
+use App\Http\Models\Users;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Actions;
@@ -28,9 +29,12 @@ class MenuCommand extends Command
     public function handle($arguments)
     {
         $telegram = new Api(Telegram::getAccessToken());
-        $response = $telegram->sendMessage([
+        $requestData = $telegram->getWebhookUpdates();
+        $user = new Users();
+        $registeredUser = $user->getUserByTelegramId($requestData['message']['from']['id']);
+        $telegram->sendMessage([
             'chat_id' => $telegram->getWebhookUpdates()['message']['from']['id'],
-            'text' => 'Меню:',
+            'text' => empty($registeredUser)?'Здравствуйте, вас приветствует телеграм бот площадки "Точка кипения". Для того, чтобы использовать функции api и команды этого бота, необходимо зарегистрироваться. Для этого в меню выберите пункт Авторизация.'."\nМеню:":"Меню:",
             'reply_markup' => $this->getMenuReplyMarkup($telegram)
         ]);
     }
