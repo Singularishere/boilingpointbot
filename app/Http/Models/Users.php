@@ -125,4 +125,8 @@ class Users extends Model
     {
         return $this->apiToken;
     }
+    public function setApiTokenExpires($expiresDate){
+        $this->api_token_expires = $expiresDate;
+        $this->save();
+    }
 }
